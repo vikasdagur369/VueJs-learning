@@ -1,9 +1,11 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
+import Ref from './components/Ref.vue'
+
 </script>
 
 <template>
-  <HelloWorld />
+  
+  <Ref/>
 </template>
 
 <style scoped></style>
