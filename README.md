@@ -39,3 +39,67 @@ ref() :- it is used to create a reactive reference to value.
 reactive me reactive objects bnate hai, multiple reference data type use kr skte hai, lekin ref() me single values use krte hai.
 ref me primitive or reference dono use kr skte hai.
 
+computed properties -> special kind of varible jo automatically update kr lete khudko jab yeh dependent data me change dekhte hai.
+
+`
+const firstName = ref("vikas")
+const lastName = ref("dagur")
+
+const fullName = computed(() => firstName.value + " " + lastName.value)
+`
+
+conditional rendering ->
+v-if, v-if-else, v-else
+
+v-show -> agar yeh true hai to vo element dikhega vrna nhi dikhega.
+
+v-for diretive -> it is just like a for loop in javascript. to iterate over array or object.
+
+keys -> virtual dom hota hai vuejs me, efficiently way se dom update krne k liye ke element identification jaruri hai, isliye keys jaruri hai. keys diye bina vue ko entire DOM structure recreate krna pdega.
+
+<p v-for="(person,index) in array" :key="index"><p/>
+
+props -> ways to transfer data from parent components to child components
+<ChildComponent name="vikas dagur"/> -> this is how we tranfer data to child component. to get data in child component we have to import data using defineProps(['name_of_prop'])
+
+
+slot -> space in a component, allow to create reusable components that can accept diff content while maintaining a consistent structure.
+
+ek component bnao uske andr slot tag lgao, and ek aur parent component bnao jiske andr child component ke andr kuch bhi data pass krdo. 
+
+
+Fallback content in slot refers to the default content that is displayed when no content is provided for a particular slot.
+parent ne kuch nhi bheja hai, fir bhi slot ke andar kuch meaningfull rhe , yeh uske liye use hota hai.
+
+named slot is a way to assign a specific name of a slot in a component.
+ 
+
+Provide & inject function -> 
+context api ki trh hai. 
+1. import provide function from vue js
+2. import child component 
+ syntax :- 
+
+ provide("employeeName",'vikas')
+ provide("age",20)
+
+ to get data in child component we have to use inject function. 
+
+1. import inject from vuejs
+
+const var_name = inject("prop_name")
+
+watchers -> automatically update the dom when underlying data changes. allows us to reactively watch for changes in a specific property or expression. 
+
+syntax -> watch(source,callback,options)
+
+source -> ref(), reactive object, array, getter function
+
+callback -> the callback function is called whenever some data changes.
+
+options -> immediate , deep, flush, onTrack 
+
+Template refs -> is a way to create a reference to a child component, element, or a DOM element within a template. this allows us to access and manipulate the referenced object directly in your components logic.
+
+refs are commonly used to interact with child components, triggers imperative actions, or access properties and methods of DOM elements.
+
