@@ -1,105 +1,284 @@
-vue js -> easy to learn, it is flexible, component based, popular, light weight.
 
-1. npm create vue@latest
-2. choose some or skip , then vue project will be build.
+# Vue.js Notes
 
-each component will have three sections :- 1. <script> 2. <template> 3.<style>
+Vue.js is a **progressive JavaScript framework** that is:
 
-Text interpolation => allows us to display javascript expression or a varible within the markup or html.
-syntax is -> {{js expression}}
+- ✅ Easy to learn  
+- 🔄 Flexible  
+- 🧱 Component-based  
+- ⚡ Lightweight  
+- 🌍 Popular  
 
-we cant declare variable inside {{}}, we have to declare variable inside script tag.
+---
 
-Attribute binding -> html elements ko attribute dene ke liye hume yha alag syntax use krna pdta hai -
+## 🚀 Getting Started
 
+```bash
+npm create vue@latest
 ```
- <a v-bind:href="any variable name">vikas dagur<a/>
+
+1. Choose options or skip setup.
+2. Vue project structure will be created.
+
+Each component typically has 3 sections:
+
+```vue
+<script>
+// JS logic
+</script>
+
+<template>
+  <!-- UI markup -->
+</template>
+
+<style>
+/* Styling */
+</style>
 ```
 
-or
-<a :href="myLink">hi hello<a/>
+---
 
-vue.js Reactivity -> it means framework can automatically uodate ui when the info behind it changes. it is similiar to useState() in react.
-we have two functions : 1.reactive() 2. ref()
+## 🧠 Basics
 
-reactive() -> it is used to create reactive objects. reactive object ek esa object hai jo khudki properties me changes ko automatically detect kar leta hai, jisse ui me updates trigger hojate hai.
-bas Object par kaam krega ,primitive datatypes nhi use kr skte.
+### ✅ Text Interpolation
 
-syntax :-
+Used to display JavaScript expressions or variables in HTML:
 
-1. sbse pehle reactive ko import kro vue se.
-2. fir ek varible me uska reference lelo, and rective function me object define krdo.
-   e.g - let intialState = reactive({count : 0})
+```html
+<h1>{{ message }}</h1>
+```
 
-ab ui par render krne template me likhenge, {{intialValue.count}}.
+> ⚠️ Variables must be declared in `<script>` — not inside `{{ }}`.
 
-events lgane kisi bhi element par humko @ use krna pdega , jese agar kisi button pr click krne pr kya hota hai, yeh check krne humko @click use knra pdegaa.
+---
 
-ref() :- it is used to create a reactive reference to value.
-reactive me reactive objects bnate hai, multiple reference data type use kr skte hai, lekin ref() me single values use krte hai.
-ref me primitive or reference dono use kr skte hai.
+### 🔗 Attribute Binding
 
-computed properties -> special kind of varible jo automatically update kr lete khudko jab yeh dependent data me change dekhte hai.
+```html
+<a v-bind:href="myLink">Click here</a>
+<!-- shorthand -->
+<a :href="myLink">Click here</a>
+```
 
-`
-const firstName = ref("vikas")
-const lastName = ref("dagur")
+---
 
-const fullName = computed(() => firstName.value + " " + lastName.value)
-`
+## 🔄 Reactivity
 
-conditional rendering ->
-v-if, v-if-else, v-else
+Vue automatically updates the DOM when data changes.
 
-v-show -> agar yeh true hai to vo element dikhega vrna nhi dikhega.
+### 1. `reactive()`
 
-v-for diretive -> it is just like a for loop in javascript. to iterate over array or object.
+Used for **objects**:
 
-keys -> virtual dom hota hai vuejs me, efficiently way se dom update krne k liye ke element identification jaruri hai, isliye keys jaruri hai. keys diye bina vue ko entire DOM structure recreate krna pdega.
+```js
+import { reactive } from 'vue';
 
-<p v-for="(person,index) in array" :key="index"><p/>
+const state = reactive({ count: 0 });
+```
 
-props -> ways to transfer data from parent components to child components
-<ChildComponent name="vikas dagur"/> -> this is how we tranfer data to child component. to get data in child component we have to import data using defineProps(['name_of_prop'])
+```html
+<h1>{{ state.count }}</h1>
+<button @click="state.count++">Increment</button>
+```
 
+> ❌ Not for primitives.
 
-slot -> space in a component, allow to create reusable components that can accept diff content while maintaining a consistent structure.
+---
 
-ek component bnao uske andr slot tag lgao, and ek aur parent component bnao jiske andr child component ke andr kuch bhi data pass krdo. 
+### 2. `ref()`
 
+Used for **primitive** or **single reference values**:
 
-Fallback content in slot refers to the default content that is displayed when no content is provided for a particular slot.
-parent ne kuch nhi bheja hai, fir bhi slot ke andar kuch meaningfull rhe , yeh uske liye use hota hai.
+```js
+import { ref } from 'vue';
 
-named slot is a way to assign a specific name of a slot in a component.
- 
+const username = ref("Vikas");
+```
 
-Provide & inject function -> 
-context api ki trh hai. 
-1. import provide function from vue js
-2. import child component 
- syntax :- 
+```html
+<h1>{{ username }}</h1>
+<button @click="username = 'Dagur'">Change Name</button>
+```
 
- provide("employeeName",'vikas')
- provide("age",20)
+---
 
- to get data in child component we have to use inject function. 
+## 🧮 Computed Properties
 
-1. import inject from vuejs
+```js
+import { ref, computed } from 'vue';
 
-const var_name = inject("prop_name")
+const firstName = ref("Vikas");
+const lastName = ref("Dagur");
 
-watchers -> automatically update the dom when underlying data changes. allows us to reactively watch for changes in a specific property or expression. 
+const fullName = computed(() => `${firstName.value} ${lastName.value}`);
+```
 
-syntax -> watch(source,callback,options)
+---
 
-source -> ref(), reactive object, array, getter function
+## 🎯 Conditional Rendering
 
-callback -> the callback function is called whenever some data changes.
+```html
+<p v-if="isLoggedIn">Welcome</p>
+<p v-else>Login first</p>
 
-options -> immediate , deep, flush, onTrack 
+<p v-show="isVisible">This is visible</p>
+```
 
-Template refs -> is a way to create a reference to a child component, element, or a DOM element within a template. this allows us to access and manipulate the referenced object directly in your components logic.
+> `v-if` removes element from DOM, `v-show` toggles visibility with CSS.
 
-refs are commonly used to interact with child components, triggers imperative actions, or access properties and methods of DOM elements.
+---
 
+## 🔁 Looping with `v-for`
+
+```html
+<ul>
+  <li v-for="(person, index) in people" :key="index">
+    {{ person.name }}
+  </li>
+</ul>
+```
+
+> `:key` helps Vue optimize DOM updates efficiently.
+
+---
+
+## 📦 Props (Parent ➝ Child)
+
+### In Parent:
+
+```vue
+<ChildComponent name="Vikas" />
+```
+
+### In Child:
+
+```js
+const props = defineProps(['name']);
+```
+
+---
+
+## 🔳 Slots
+
+Used to insert custom content into a reusable component.
+
+### Basic Slot (Default)
+
+**Child Component:**
+
+```vue
+<slot>Fallback content</slot>
+```
+
+**Parent Component:**
+
+```vue
+<ChildComponent>
+  <p>This is custom content</p>
+</ChildComponent>
+```
+
+### Named Slot
+
+**Child:**
+
+```vue
+<slot name="header"></slot>
+<slot></slot>
+```
+
+**Parent:**
+
+```vue
+<ChildComponent>
+  <template #header>
+    <h1>Header content</h1>
+  </template>
+
+  <p>Main content</p>
+</ChildComponent>
+```
+
+---
+
+## 🌐 Provide / Inject
+
+Like React's Context API.
+
+### Parent:
+
+```js
+import { provide } from 'vue';
+
+provide('employeeName', 'Vikas');
+provide('age', 20);
+```
+
+### Child:
+
+```js
+import { inject } from 'vue';
+
+const name = inject('employeeName');
+const age = inject('age');
+```
+
+---
+
+## 👀 Watchers
+
+React to data changes:
+
+```js
+import { ref, watch } from 'vue';
+
+const count = ref(0);
+
+watch(count, (newVal, oldVal) => {
+  console.log(`Changed from ${oldVal} ➝ ${newVal}`);
+});
+```
+
+**Options:**
+
+- `immediate`
+- `deep`
+- `flush`
+- `onTrack`
+
+---
+
+## 🔗 Template Refs
+
+Get reference to DOM elements or components.
+
+### Template:
+
+```html
+<input ref="myInput" />
+```
+
+### Script:
+
+```js
+import { ref, onMounted } from 'vue';
+
+const myInput = ref(null);
+
+onMounted(() => {
+  myInput.value.focus();
+});
+```
+
+---
+
+## ✅ Bonus Tips
+
+- Prefer `<script setup>` for simpler syntax.
+- Vue DevTools is a must for debugging.
+- Use Composition API (`ref`, `reactive`, `computed`, etc.) for better scalability.
+- Use **Pinia** for global state management (Vuex alternative).
+
+---
+
+Happy Coding! 🎉
